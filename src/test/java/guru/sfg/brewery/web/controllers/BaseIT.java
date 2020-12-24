@@ -14,12 +14,12 @@ import org.springframework.web.context.WebApplicationContext;
 
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 
-public class BaseIT {
+public abstract class BaseIT {
 
     @Autowired
     WebApplicationContext wac;
 
-    MockMvc mockMvc;
+    protected MockMvc mockMvc;
 
     @MockBean
     BeerRepository beerRepository;
