@@ -13,6 +13,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class BeerControllerIT extends BaseIT {
 
     @Test
+    void initCreationFormWithSpring() throws Exception {
+        mockMvc.perform(get("/beers/new").with(httpBasic("spring", "guru")))
+                .andExpect(status().isOk())
+                .andExpect(view().name("beers/createBeer"))
+                .andExpect(model().attributeExists("beer"));
+    }
+
+    @Test
     void initCreationForm() throws Exception {
         mockMvc.perform(get("/beers/new").with(httpBasic("user", "password")))
                 .andExpect(status().isOk())
@@ -20,20 +28,10 @@ public class BeerControllerIT extends BaseIT {
                 .andExpect(model().attributeExists("beer"));
     }
 
-    // for security logic
-    @WithMockUser
-    @Test
-    void findBeers() throws Exception {
-        mockMvc.perform(get("/beers/find"))
-                .andExpect(status().isOk())
-                .andExpect(view().name("beers/findBeers"))
-                .andExpect(model().attributeExists("beer"));
-    }
-
     // for authentication logic
     @Test
-    void findBeersWithHttpBasic() throws Exception {
-        mockMvc.perform(get("/beers/find").with(httpBasic("spring", "guru")))
+    void findBeersWithScott() throws Exception {
+        mockMvc.perform(get("/beers/find").with(httpBasic("scott", "tiger")))
                 .andExpect(status().isOk())
                 .andExpect(view().name("beers/findBeers"))
                 .andExpect(model().attributeExists("beer"));
@@ -42,6 +40,16 @@ public class BeerControllerIT extends BaseIT {
     @Test
     void findBeersWithAnonymous() throws Exception {
         mockMvc.perform(get("/beers/find").with(anonymous()))
+                .andExpect(status().isOk())
+                .andExpect(view().name("beers/findBeers"))
+                .andExpect(model().attributeExists("beer"));
+    }
+
+    // for security logic
+    @WithMockUser
+    @Test
+    void findBeers() throws Exception {
+        mockMvc.perform(get("/beers/find"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("beers/findBeers"))
                 .andExpect(model().attributeExists("beer"));
