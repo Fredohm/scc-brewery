@@ -1,6 +1,7 @@
 package guru.sfg.brewery.web.controllers.api;
 
 import guru.sfg.brewery.web.controllers.BaseIT;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 
@@ -9,6 +10,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+@Disabled
 @WebMvcTest
 public class BeerRestControllerIT extends BaseIT {
 
