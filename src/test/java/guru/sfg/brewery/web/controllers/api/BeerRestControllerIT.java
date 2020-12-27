@@ -38,6 +38,20 @@ public class BeerRestControllerIT extends BaseIT {
     }
 
     @Test
+    void deleteBeerHttpBasicCustomerRole()  throws Exception {
+        mockMvc.perform(delete("/api/v1/beer/5deb7d1f-adbc-4cf0-85ea-5d1e5d6f0486/")
+                .with(httpBasic("scott", "tiger")))
+                .andExpect(status().isForbidden());
+    }
+
+    @Test
+    void deleteBeerHttpBasicUserRole()  throws Exception {
+        mockMvc.perform(delete("/api/v1/beer/5deb7d1f-adbc-4cf0-85ea-5d1e5d6f0486/")
+                .with(httpBasic("user", "password")))
+                .andExpect(status().isForbidden());
+    }
+
+    @Test
     void deleteBeerNoAuth() throws Exception {
         mockMvc.perform(delete("/api/v1/beer/5deb7d1f-adbc-4cf0-85ea-5d1e5d6f0486"))
                 .andExpect(status().isUnauthorized());
