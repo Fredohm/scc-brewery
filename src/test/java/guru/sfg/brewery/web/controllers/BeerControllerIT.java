@@ -35,7 +35,7 @@ public class BeerControllerIT extends BaseIT {
     }
 
     @Test
-    void initCreationFormNoAuth() throws Exception {
+    void initCreationFormNotAuth() throws Exception {
         mockMvc.perform(get("/beers/new"))
                 .andExpect(status().isUnauthorized());
     }
@@ -64,7 +64,7 @@ public class BeerControllerIT extends BaseIT {
     @Nested
     class ProcessFindForm {
         @Test
-        void findBeerFormNoAuth() throws Exception {
+        void findBeerForm() throws Exception {
             mockMvc.perform(get("/beers").param("beerName", ""))
                     .andExpect(status().isUnauthorized());
         }

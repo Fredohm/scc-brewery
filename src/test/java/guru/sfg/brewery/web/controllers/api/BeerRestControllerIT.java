@@ -53,8 +53,8 @@ public class BeerRestControllerIT extends BaseIT {
         }
 
         @ParameterizedTest(name = "#{index} with [{arguments}]")
-        @MethodSource("guru.sfg.brewery.web.controllers.BeerControllerIT#getStreamNoAdmin")
-        void deleteBeerHttpBasicNoAuth(String user, String pwd)  throws Exception {
+        @MethodSource("guru.sfg.brewery.web.controllers.BeerControllerIT#getStreamNotAdmin")
+        void deleteBeerHttpBasicNotAuth(String user, String pwd)  throws Exception {
             mockMvc.perform(delete("/api/v1/beer/"  + beerToDelete().getId())
                     .with(httpBasic(user, pwd)))
                     .andExpect(status().isForbidden());
@@ -88,7 +88,7 @@ public class BeerRestControllerIT extends BaseIT {
     @Nested
     class FindBeerById {
         @Test
-        void findBeerByIdNoAuth() throws Exception {
+        void findBeerById() throws Exception {
             Beer beer = beerRepository.findAll().get(0);
             mockMvc.perform(get("/api/v1/beer/" + beer.getId()))
                     .andExpect(status().isUnauthorized());
@@ -108,7 +108,7 @@ public class BeerRestControllerIT extends BaseIT {
     @Nested
     class FindBeerByUPC {
         @Test
-        void findBeerByUpcNoAuth() throws Exception {
+        void findBeerByUpc() throws Exception {
             mockMvc.perform(get("/api/v1/beerUpc/0631234200036"))
                     .andExpect(status().isUnauthorized());
         }

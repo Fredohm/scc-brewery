@@ -33,15 +33,15 @@ public abstract class BaseIT {
                 Arguments.of("user", "password"));
     }
 
-    public static Stream<Arguments> getStreamNoAdmin() {
-      return Stream.of(
-              Arguments.of("scott", "tiger"),
-              Arguments.of("user", "password"));
-    }
-
     public static Stream<Arguments> getStreamAdminCustomer() {
         return Stream.of(
                 Arguments.of("spring", "guru"),
                 Arguments.of("scott", "tiger"));
+    }
+
+    public static Stream<Arguments> getStreamNotAdmin() {
+        return Stream.of(
+                Arguments.of("scott", "tiger"),
+                Arguments.of("user", "password"));
     }
 }
