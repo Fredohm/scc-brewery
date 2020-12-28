@@ -52,6 +52,17 @@ public class UserDataLoader implements CommandLineRunner {
         Authority updateBrewery = authorityRepository.save(Authority.builder().role("brewery.update").build());
         Authority deleteBrewery = authorityRepository.save(Authority.builder().role("brewery.delete").build());
 
+        Authority createOrder = authorityRepository.save(Authority.builder().role("order.create").build());
+        Authority readOrder = authorityRepository.save(Authority.builder().role("order.read").build());
+        Authority updateOrder = authorityRepository.save(Authority.builder().role("order.update").build());
+        Authority deleteOrder = authorityRepository.save(Authority.builder().role("order.delete").build());
+
+        Authority createOrderCustomer = authorityRepository.save(Authority.builder().role("customer.order.create").build());
+        Authority readOrderCustomer = authorityRepository.save(Authority.builder().role("customer.order.read").build());
+        Authority updateOrderCustomer = authorityRepository.save(Authority.builder().role("customer.order.update").build());
+        Authority deleteOrderCustomer  = authorityRepository.save(Authority.builder().role("customer.order.delete").build());
+
+
         Role adminRole = roleRepository.save(Role.builder().name("ADMIN").build());
         Role customerRole = roleRepository.save(Role.builder().name("CUSTOMER").build());
         Role userRole = roleRepository.save(Role.builder().name("USER").build());
