@@ -101,9 +101,5 @@ public class UserDataLoader implements CommandLineRunner {
         );
 
         log.debug("Users Loaded: " + userRepository.count());
-
-        user.getAuthorities().forEach(authority -> {
-            System.out.println(authority.getRoles());
-        });
     }
 }
