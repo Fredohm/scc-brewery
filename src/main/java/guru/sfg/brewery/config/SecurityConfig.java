@@ -12,7 +12,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true)
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
@@ -29,8 +29,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                                 .hasAnyRole("ADMIN", "CUSTOMER")
                             .antMatchers(HttpMethod.GET, "/api/v1/beer/**")
                                 .hasAnyRole("ADMIN", "CUSTOMER", "USER")
-                            .mvcMatchers(HttpMethod.DELETE, "/api/v1/beer/**")
-                                .hasRole("ADMIN")
                             .mvcMatchers(HttpMethod.GET, "/brewery/api/v1/breweries")
                                 .hasAnyRole("ADMIN", "CUSTOMER")
                             .mvcMatchers(HttpMethod.GET, "/api/v1/beerUpc/{upc}")
