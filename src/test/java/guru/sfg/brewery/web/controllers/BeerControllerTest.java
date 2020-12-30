@@ -41,6 +41,7 @@ import java.util.UUID;
 import static org.hamcrest.Matchers.*;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -117,7 +118,7 @@ class BeerControllerTest {
     @Test
     void processCreationForm() throws Exception {
         when(beerRepository.save(ArgumentMatchers.any())).thenReturn(Beer.builder().id(uuid).build());
-        mockMvc.perform(post("/beers/new"))
+        mockMvc.perform(post("/beers/new").with(csrf()))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:/beers/"+ uuid))
                 .andExpect(model().attributeExists("beer"));
@@ -138,7 +139,7 @@ class BeerControllerTest {
     void processUpdateForm() throws Exception {
         when(beerRepository.save(ArgumentMatchers.any())).thenReturn(Beer.builder().id(uuid).build());
 
-        mockMvc.perform(post("/beers/"+uuid+"/edit"))
+        mockMvc.perform(post("/beers/"+uuid+"/edit").with(csrf()))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:/beers/"+uuid))
                 .andExpect(model().attributeExists("beer"));

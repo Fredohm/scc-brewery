@@ -37,6 +37,7 @@ import java.util.UUID;
 
 import static org.hamcrest.Matchers.*;
 import static org.mockito.Mockito.*;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -110,7 +111,7 @@ class CustomerControllerTest {
     @Test
     void processCreationForm() throws Exception{
         when(customerRepository.save(ArgumentMatchers.any())).thenReturn(Customer.builder().id(uuid).build());
-        mockMvc.perform(post("/customers/new"))
+        mockMvc.perform(post("/customers/new").with(csrf()))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:/customers/"+ uuid))
                 .andExpect(model().attributeExists("customer"));
@@ -131,7 +132,7 @@ class CustomerControllerTest {
     void processUpdationForm() throws Exception{
         when(customerRepository.save(ArgumentMatchers.any())).thenReturn(Customer.builder().id(uuid).build());
 
-        mockMvc.perform(post("/customers/"+uuid+"/edit"))
+        mockMvc.perform(post("/customers/"+uuid+"/edit").with(csrf()))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:/customers/"+uuid))
                 .andExpect(model().attributeExists("customer"));
