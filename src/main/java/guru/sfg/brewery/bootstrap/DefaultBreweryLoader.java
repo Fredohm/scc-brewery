@@ -30,7 +30,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -52,6 +51,10 @@ public class DefaultBreweryLoader implements CommandLineRunner {
     public static final String DUNEDIN_DISTRIBUTING = "Dunedin Distributing";
     public static final String KEY_WEST_DISTRIBUTING = "Key West Distributing";
 
+    public static final String ST_PETE_USER = "stpete";
+    public static final String DUNEDIN_USER = "dunedin";
+    public static final String KEYWEST_USER = "keywest";
+
     public static final String BEER_1_UPC = "0631234200036";
     public static final String BEER_2_UPC = "0631234300019";
     public static final String BEER_3_UPC = "0083783375213";
@@ -66,8 +69,6 @@ public class DefaultBreweryLoader implements CommandLineRunner {
     private final AuthorityRepository authorityRepository;
     private final PasswordEncoder passwordEncoder;
 
-
-    @Transactional
     @Override
     public void run(String... args) {
         loadSecurityData();
@@ -97,18 +98,21 @@ public class DefaultBreweryLoader implements CommandLineRunner {
 
         // create users
         User stPeteUser = userRepository.save(User.builder()
+                .username("stpete")
                 .password(passwordEncoder.encode("password"))
                 .customer(stPeteCustomer)
                 .role(customerRole)
                 .build());
 
         User dunedinUser = userRepository.save(User.builder()
+                .username("dunedin")
                 .password(passwordEncoder.encode("password"))
                 .customer(dunedinCustomer)
                 .role(customerRole)
                 .build());
 
         User keyWestUser = userRepository.save(User.builder()
+                .username("keywest")
                 .password(passwordEncoder.encode("password"))
                 .customer(keyWestCustomer)
                 .role(customerRole).build());
@@ -121,8 +125,8 @@ public class DefaultBreweryLoader implements CommandLineRunner {
         log.debug("Orders loaded: " + beerOrderRepository.count());
     }
 
-    private void createOrder(Customer customer) {
-        beerOrderRepository.save(BeerOrder.builder()
+    private BeerOrder createOrder(Customer customer) {
+        return beerOrderRepository.save(BeerOrder.builder()
                     .customer(customer)
                     .orderStatus(OrderStatusEnum.NEW)
                     .beerOrderLines(Set.of(BeerOrderLine.builder()
@@ -239,10 +243,14 @@ public class DefaultBreweryLoader implements CommandLineRunner {
         adminRole.setAuthorities(new HashSet<>(Set.of(
                 createBeer, readBeer, updateBeer, deleteBeer,
                 createCustomer, readCustomer, updateCustomer, deleteCustomer,
-                createBrewery, readBrewery, updateBrewery, deleteBrewery
+                createBrewery, readBrewery, updateBrewery, deleteBrewery,
+                createOrder, readOrder, updateOrder, deleteOrder
         )));
 
-        customerRole.setAuthorities(new HashSet<>(Set.of(readBeer, readCustomer, readBrewery)));
+        customerRole.setAuthorities(new HashSet<>(Set.of(
+                readBeer, readCustomer, readBrewery,
+                createOrderCustomer, readOrderCustomer, updateOrderCustomer, deleteOrderCustomer
+        )));
 
         userRole.setAuthorities(new HashSet<>(Set.of(readBeer)));
 
@@ -262,7 +270,7 @@ public class DefaultBreweryLoader implements CommandLineRunner {
                 .build()
         );
 
-        User user = userRepository.save(User.builder()
+        userRepository.save(User.builder()
                 .username("scott")
                 .password(passwordEncoder.encode("tiger"))
                 .role(customerRole)
