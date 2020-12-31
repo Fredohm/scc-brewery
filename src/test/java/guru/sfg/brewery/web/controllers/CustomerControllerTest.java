@@ -121,7 +121,7 @@ class CustomerControllerTest {
     @Test
     void initUpdateCustomerForm() throws Exception{
         when(customerRepository.findById(uuid)).thenReturn(Optional.of(Customer.builder().id(uuid).build()));
-        mockMvc.perform(get("/customers/"+uuid+"/edit"))
+        mockMvc.perform(get("/customers/"+ uuid +"/edit"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("customers/createOrUpdateCustomer"))
                 .andExpect(model().attributeExists("customer"));
@@ -129,7 +129,7 @@ class CustomerControllerTest {
     }
 
     @Test
-    void processUpdationForm() throws Exception{
+    void processUpdateForm() throws Exception{
         when(customerRepository.save(ArgumentMatchers.any())).thenReturn(Customer.builder().id(uuid).build());
 
         mockMvc.perform(post("/customers/"+uuid+"/edit").with(csrf()))
