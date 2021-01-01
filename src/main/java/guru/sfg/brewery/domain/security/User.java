@@ -70,7 +70,7 @@ public class User implements UserDetails, CredentialsContainer {
     private Timestamp lastModifiedDate;
 
     @Builder.Default
-    private Boolean userGoogle2fa = false;
+    private Boolean useGoogle2fa = false;
 
     private String google2faSecret;
 
