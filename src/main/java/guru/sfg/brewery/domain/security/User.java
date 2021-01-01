@@ -69,10 +69,13 @@ public class User implements UserDetails, CredentialsContainer {
     @UpdateTimestamp
     private Timestamp lastModifiedDate;
 
-    @Override
-    public void eraseCredentials() {
-        this.password = null;
-    }
+    @Builder.Default
+    private Boolean userGoogle2fa = false;
+
+    private String google2faSecret;
+
+    @Transient
+    private Boolean google2faRequired = true;
 
     @Override
     public boolean isAccountNonExpired() {
@@ -92,5 +95,10 @@ public class User implements UserDetails, CredentialsContainer {
     @Override
     public boolean isEnabled() {
         return this.enabled;
+    }
+
+    @Override
+    public void eraseCredentials() {
+        this.password = null;
     }
 }
