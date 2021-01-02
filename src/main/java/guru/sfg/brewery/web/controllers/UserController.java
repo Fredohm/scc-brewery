@@ -38,7 +38,7 @@ public class UserController {
         return "user/register2fa";
     }
 
-    @PostMapping
+    @PostMapping("/register2fa")
     public String confirm2fa(@RequestParam Integer verifyCode) {
 
         User user = getUser();
@@ -62,7 +62,7 @@ public class UserController {
         return "user/verify2fa";
     }
 
-    @PostMapping
+    @PostMapping("/verify2fa")
     public String verifyPostOf2fa(@RequestParam Integer verifyCode) {
 
         User user = getUser();
@@ -71,7 +71,7 @@ public class UserController {
 
             ((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).setGoogle2faRequired(false);
 
-            return "/index";
+            return "index";
         } else {
             return "user/verify2fa";
         }
