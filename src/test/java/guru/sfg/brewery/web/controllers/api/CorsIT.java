@@ -53,7 +53,7 @@ public class CorsIT extends BaseIT {
     void deleteBeersPreFlight() throws Exception {
         mockMvc.perform(options("/api/v1/beer/1234")
                 .header("Origin", "https://springframework.guru")
-                .header("Access-Control-Request-Method", "POST"))
+                .header("Access-Control-Request-Method", "DELETE"))
                 .andExpect(status().isOk())
                 .andExpect(header().string("Access-Control-Allow-Origin", "*"));
     }

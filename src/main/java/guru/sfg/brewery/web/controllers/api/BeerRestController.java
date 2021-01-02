@@ -41,6 +41,7 @@ import java.util.UUID;
 
 @Slf4j
 @RequiredArgsConstructor
+@CrossOrigin
 @RequestMapping("/api/v1/")
 @RestController
 public class BeerRestController {
